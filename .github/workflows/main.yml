@@ -1,11 +1,26 @@
-name: Hello Github Actions
+name: Checkout Pytest Tests
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  hello:
+  checkout-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Say Hello
-        run: echo "Hello, Github Actions"
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Pytest
+        run: python -m pip install pytest
+
+      - name: Run Checkout Tests
+        run: python -m pytest -v
